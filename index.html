@@ -1,163 +1,97 @@
 
-
-<html><head>
-<meta name="format-detection" content="telephone=no">
+<!DOCTYPE html>
+<html lang=ja>
+<head>
 <meta charset="utf-8">
-<link rel="stylesheet" href="sample.css" type="text/css">
-		<title>素数検索ツール TlooksSosu</title>
-		<script language="JavaScript">
-			<!--
-			
-			function Calloc(lSize)
-			{
-				this.length=lSize;
-				for (var i=0;i<lSize;i++) this[i]=0;
-			}
-			
-			function Prime(lMinPrime,lMaxPrime)
-			{
-				var dtStart=new Date();
-				if (lMaxPrime<2) return false;
-				var lBase=3;
-				for (var lSize=1;(lBase+lSize*2-2)*(lBase+lSize*2-2)<lMaxPrime;lSize<<=1) ;
-					
-				var plTable=new Calloc(lSize);
-					
-				document.writeln(lSize," elements allocated.<P>");
-				var lPrimeDisp=0,lPrimePi=1;
-				if (2>=lMinPrime)
-				{
-					document.writeln(2);
-					lPrimeDisp++;
-				}
-				var lIndex=0;
-				while (lBase+(lIndex<<1)<=lMaxPrime)
-				{
-					var lPrime=plTable[lIndex];
-					if (lPrime<=0)
-					{	
-						var l=lBase+(lIndex<<1);
-						lPrimePi++;
-						if (l>=lMinPrime)
-						{
-							document.writeln(l);
-							lPrimeDisp++;
-						}
-						if (lBase==3) plTable[lIndex]=lPrime=l;
-					
-					}
-					if (lPrime)
-					{	
-						for (;;)
-						{	
-							lPrime=plTable[lIndex];
-							plTable[lIndex]=0; 
-							var lOffset;
-							if (lPrime>0) lOffset=lPrime;
-							else
-							{	
-								lPrime=-lPrime;
-								lOffset=lBase+(lIndex<<1)+lPrime;
-								lOffset-=(lOffset%lPrime);
-								if (!(lOffset&1)) lOffset+=lPrime;
-								lOffset=((lOffset-lBase-(lIndex<<1))>>1);
-							}
-							var lTable=1; // 正のみ
-							for (;lOffset<=lSize;lOffset+=lPrime)
-							{
-								var lIndexNew=((lIndex+lOffset)&(lSize-1));
-								lTable=plTable[lIndexNew];
-								if (lTable>0) continue; 
-								plTable[lIndexNew]=lPrime; 
-								break;
-							}
-							if (lTable<0)
-							{
-								plTable[lIndex]=lTable; 
-								continue; 
-							}
-							if (lTable) plTable[lIndex]=-lPrime; 
-							break;
-						}
-					}
-					if (++lIndex==lSize) lIndex=0,lBase+=(lSize<<1);
-				}
-				var dtEnd=new Date();
-				
-                
-			
-                	document.write(dtEnd.getTime()-dtStart.getTime()," <HR>");
-                
-				document.write("再度計算する場合、このページを再読み込みするとすることができます。<P>");
-				
-				document.close();
-				return false; // Submitしない
-			}
-			//-->
-		</script>
-                
-<style type="text/css">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="format-detection" content="telephone=no">
+<link rel="stylesheet" href="style.css">
+<title>NKIIB</title>
 
-p {
-font-size: 100%;
-font-weight: bold;
-}
+<meta name="twitter:card" content="summary" />
+<meta name="twitter:site" content="@nkiib" />
+<meta name="twitter:title" content="NKIIB HP" />
+<meta name="twitter:description" content="NKIIBのホームページです" />
+<meta name="twitter:image" content="http://nishikiout.ml/icon.jpg">
+<meta name="description" content="ページ説明">
+<meta name="keywords" content="Tlooks,NKIIB,nkiib,Nishiki,錦のソフトウェア情報局">
+<meta name="author" content="nishiki">
+<meta http-equiv="pragma" content="no-cache">
+<meta http-equiv="cache-control" content="no-cache">
+<meta http-equiv="expires" content="Sat, 31 Jan 2018 GMT">
+<meta http-equiv="Content-Style-Type" content="text/css">
+<meta http-equiv="Content-Script-Type" content="text/javascript">
+<link rel="apple-touch-icon-precomposed" href="http://nishikiout.ml/icon.jpg">
 
-p.example1 { font-family: "ＭＳ Ｐ明朝","ＭＳ 明朝",serif; }
-p.example2 { font-family: "ＭＳ Ｐゴシック","ＭＳ ゴシック",sans-serif; }
+<link href="https://fonts.googleapis.com/css?family=Noto+Sans+JP|Roboto" rel="stylesheet">
 
-</style>
-                
-                                
-             <style type="text/css">
-<!--
-p { background: url("img/sbgi06.gif") no-repeat 50% 50% fixed }
-TABLE { background: #ffffff url("img/sbgi05.gif") no-repeat }
--->
-</style> 
-<style type="text/css"> 
- header {
-  margin: 5%;
-  background-color: silver;
-}
-p {
-  color: white;
-}
-</style>                
-	</head>
-	
-       <body style="background-color: #048">
-		<h1 class="example2" style="background-color: #199">
-			素数検索ツール TlooksSosu
-		</h1>
-                
-		<p style="background-color: #199">下の入力欄に数値を入力してみてください。一つの数値を確かめたい場合、一つのフォームを数値以外の物を記入してください。数値が大きいほど端末へダイレクトアタックします。</p><p>
-		</p><form style="background-color: #192" onsubmit="return Prime(parseInt(minprime.value),parseInt(maxprime.value))">
-			<input type="text" name="minprime" value="2">以上
-			<input type="text" name="maxprime" value="1000">以下の素数表を作成します。
-			<input type="submit" value=" Start ">
-		</form>
-		<hr>
-		<script language="JavaScript">
-			<!--
-			document.forms[0].minprime.select();
-			document.forms[0].maxprime.select();
-			document.forms[0].maxprime.focus();
-			//--><B>どうやらこのブラウザはJavaScriptには対応していないようです。推奨環境:Safari6以降 Chrome51以降 もしくは、お使いのブラウザのJavaScriptを許可してください。</B><P>
-		</script>
-		
-        <p style="background-color: #999">
-        
-                <small style="background-color: #999">
-        バグ報告等は<a href="https://twitter.com/nkiib"><button>Twitter@nkiib</button></a>まで
-        
-        </small>
-        
-        
-        <br>
-        </p>
-<small><small>©2017 ︎Tlooks ©︎2017 Nishiki</small></small>
-            
-            <p style="background-color: #000"><small><small><small>Powered by Nishikiout
-</body></html>
-     
+</head>
+
+<body>
+
+<header class="kotei-header">
+	<a style="color: #000000" href="http://nishikiout.ml"><h2>NKIIB</h2></a>
+<div class="menu">
+	<a class="a-m" href="http://twitter.com/nkiib">Twitter</a> 
+	<a class="a-m" href="https://nishikiout.hatenablog.com">Nishiki-Hub</a>
+	<a class="a-m" href="http://tlooks.nishikiout.ml">Tlooks</a>
+</div>
+</header>
+<br><br><br><br>
+
+<h1>平成最後の秋<br>平成最後の恋</h1>
+
+<h2 class="blue-h">Event</h2>
+10/14 第5回秋季例大祭(頒布物なし・他サークルお手伝い)<br>
+10/21 東方紅楼夢(一般)<br>
+11/24 第10回東方ニコ童祭Ex【新作あり】<br>
+12/29-31 コミックマーケット95(調整中)<br>
+
+<a href="http://nishikiout.ml/event">その他のイベント</a>
+
+<div class="box3">
+<h2 class="blue-h">NEWS</h2>
+現在ニュースはありません
+<hr class="bhr">
+</div>
+
+<h2 class="blue-h">Link</h2>
+<h2>TlooksTool</h2>
+<a href="http://tlooks.nishikiout.ml">Tlooksトップページ</a><br>
+<a href="http://tlooks.nishikiout.ml/tool/tlooks-sosu.html">Tlooks素数</a><br>
+<a href="http://tlooks.nishikiout.ml/tool/tlooks-randomnumber.html">ランダム乱数生成機</a><br>
+<a href="http://tlooks.nishikiout.ml/tool/tlooks-hts.html">Tlooks方程式</a><br>
+<a href="http://tlooks.nishikiout.ml/tool/tlooks-sk.html">TlooksSK-最大公約数 最小公倍数の計算機</a><br>
+<a href="http://tlooks.nishikiout.ml/tool/tlooks-ib.html">TlooksIB-因数分解・素因数分解する計算機</a><br>
+<a href="http://tlooks.nishikiout.ml/tool/tlooks-tm.html">TlooksTM Twitterのカードを簡単に作成できます。</a>
+
+<h2>素材</h2>
+<a href="http://sozai.nishikiout.ml">素材ページ</a><br>
+<a href="http://sozai.nishikiout.ml/info/mss.html">もう、それはそれは、、</a><br>
+<a href="http://sozai.nishikiout.ml/info/morning-park.html">MorningPark</a><br>
+<a href="http://sozai.nishikiout.ml/info/soundeffect.html">サウンドエフェクト</a>
+
+<h2>Blog類</h2>
+<a href="https://nishikiout.hatenablog.com">Nishiki-Hub</a><br>
+<a href="http://blog.nishikiout.ml/idevice.html">iOSデバイス 早見表</a>
+<hr>
+
+<div style="width:100%;height:200px;overflow:auto;">
+<h2 class="blue-kote">Banner</h2>
+
+<img src="http://www16.big.or.jp/~zun/image/banner.gif" width=200 height=40><a href="https://tlooks.booth.pm/"><br>
+<img src="https://asset.booth.pm/static-images/banner/200x40_01.png"></a><br> 
+<a href="http://nishikiout.ml/"><img src="http://nishikiout.ml/banner.jpg"></a><br>
+<a href="http://blog.nishikiout.ml/"><img src="http://nishikiout.ml/blogbanner.jpg" width=200 height=40></a><br>
+<img src="http://nishikiout.ml/podcast.jpg" width=200 height=40>
+</div>
+
+<h2 class="blue-h">Contact</h2>
+
+お問い合わせはTwitterまでお願いします。
+<br><br>
+<a href="https://twitter.com/nkiib">Twitter(NKIIB)</a><br>
+<a href="https://twitter.com/nishikiout">Twitter(Nishiki-Hub)</a>
+
+<hr>
+&copy;2015-2018 Tlooks &copy;2015-2018 NKIIB All rights reserved
